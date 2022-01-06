@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+C:\Users\kanio\Desktop\javaWebWorkbook\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+350626421.index
+2570093314.index
+3252225135.index
+58453884.index
+3589223636.index
+2781808304.index
