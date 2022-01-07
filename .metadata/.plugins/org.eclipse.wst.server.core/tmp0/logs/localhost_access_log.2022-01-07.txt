@@ -5,3 +5,8 @@
 0:0:0:0:0:0:0:1 - - [07/Jan/2022:13:19:18 +0900] "GET /webPro/member/update?no=5 HTTP/1.1" 200 475
 0:0:0:0:0:0:0:1 - - [07/Jan/2022:13:19:35 +0900] "GET /webPro/member/update?no=5 HTTP/1.1" 200 475
 0:0:0:0:0:0:0:1 - - [07/Jan/2022:13:19:37 +0900] "GET /webPro/member/update?no=5 HTTP/1.1" 200 474
+0:0:0:0:0:0:0:1 - - [07/Jan/2022:13:28:42 +0900] "GET /webPro/member/update?no=5 HTTP/1.1" 200 474
+0:0:0:0:0:0:0:1 - - [07/Jan/2022:13:28:49 +0900] "POST /webPro/member/update HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [07/Jan/2022:13:28:49 +0900] "GET /webPro/member/list HTTP/1.1" 200 512
+0:0:0:0:0:0:0:1 - - [07/Jan/2022:14:13:39 +0900] "GET /webPro/member/list HTTP/1.1" 200 512
+0:0:0:0:0:0:0:1 - - [07/Jan/2022:14:13:40 +0900] "GET /webPro/member/update?no=1 HTTP/1.1" 404 766
