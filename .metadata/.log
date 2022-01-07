@@ -451,3 +451,6 @@ org.eclipse.ecf.filetransfer.BrowseFileTransferException: HttpComponents connect
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
 !SUBENTRY 1 org.eclipse.ecf.identity 4 0 2022-01-07 13:18:43.666
 !MESSAGE HttpComponents connection error response code 502.
+
+!ENTRY org.eclipse.jface.text 2 0 2022-01-07 13:22:51.602
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.boolean'
