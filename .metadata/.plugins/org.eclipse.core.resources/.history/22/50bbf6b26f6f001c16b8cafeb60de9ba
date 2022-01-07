@@ -1,0 +1,33 @@
+package spms.servlets;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class MemberUpdateServlet extends HttpServlet{
+	
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName(this.getInitParameter("driver"));
+			
+		} catch (Exception e) {
+			throw new ServletException(e);
+		} finally {
+			try {if (rs != null) rs.close();} catch (Exception e) {}
+			try {if (stmt != null) stmt.close();} catch (Exception e) {}
+			try {if (conn != null) conn.close();} catch (Exception e) {}
+		}
+	}
+
+}
