@@ -1,18 +1,21 @@
 package spms.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import spms.vo.Member;
 
 @WebServlet("/member/list")
 public class MemberListServlet extends HttpServlet{
@@ -34,22 +37,26 @@ public class MemberListServlet extends HttpServlet{
 					+ " order by MNO ASC");
 			
 			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<html><body><title>회원목록</title></head>");
-			out.println("<body><h1>회원목록</h1>");
-			out.println("<p><a href='add'>신규 회원</a></p>");
 			
+			ArrayList<Member> members = new ArrayList<>();
 			while (rs.next()) {
-				out.println(
-						rs.getInt("MNO") + "," +
-						"<a href='update?no=" + rs.getInt("MNO") + "'>" +
-						rs.getString("MNAME") + "</a>," + 
-						rs.getString("EMAIL") + "," + 
-						rs.getString("CRE_DATE") + "<br>");
+				members.add(new Member()
+						.setNo(rs.getInt("MNO"))
+						.setName(rs.getString("MNAME"))
+						.setEmail(rs.getString("EMAIL"))
+						.setCreatedDate(rs.getDate("CRE_DATE"))
+						);
 			}
 			
+			request.setAttribute("members", members);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/member/MemberList.jsp");
+			rd.include(request, response);
+			
 		} catch (Exception e) {
-			throw new ServletException(e);
+			request.setAttribute("error", e);
+			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
+			rd.forward(request, response);
 		} finally {
 			try {if (rs != null) rs.close(); } catch(Exception e) {}
 			try {if (stmt != null) stmt.close(); } catch(Exception e) {}
