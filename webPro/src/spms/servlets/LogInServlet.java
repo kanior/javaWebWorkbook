@@ -1,9 +1,6 @@
 package spms.servlets;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -17,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import spms.dao.MemberDao;
 import spms.vo.Member;
 
+@SuppressWarnings("serial")
 @WebServlet("/auth/login")
 public class LogInServlet extends HttpServlet {
 	
