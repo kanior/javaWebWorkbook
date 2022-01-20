@@ -13,29 +13,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import spms.dao.MemberDao;
+
 @WebServlet("/member/delete")
 public class MemberDeleteServlet extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = null;
-		Statement stmt = null;
 		
 		try {
 			ServletContext sc = this.getServletContext();
 			conn = (Connection)sc.getAttribute("conn");
-			stmt = conn.createStatement();
-			stmt.executeUpdate(
-					"delete from MEMBERS "
-					+ "where MNO=" + request.getParameter("no"));
+			
+			MemberDao memberDao = new MemberDao();
+			memberDao.setConnection(conn);
+			
+			memberDao.delete(Integer.parseInt(request.getParameter("no")));
 			
 			response.sendRedirect("list");
 		} catch (Exception e) {
 			request.setAttribute("error", e);
 			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
 			rd.forward(request, response);
-		} finally {
-			try {if (stmt != null) stmt.close();} catch(Exception e) {}
 		}
 	}
 
