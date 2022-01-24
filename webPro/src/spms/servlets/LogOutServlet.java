@@ -17,7 +17,7 @@ public class LogOutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.invalidate();
 		
-		response.sendRedirect(request.getContextPath() + "/member/list");
+		request.setAttribute("viewUrl", "redirect:" + request.getContextPath() + "/member/list.do");
 	}
 
 }

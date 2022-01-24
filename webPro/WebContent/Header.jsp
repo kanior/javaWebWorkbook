@@ -7,10 +7,10 @@ SPMS (Simple Project Management System)
 <c:choose>
 	<c:when test="${member.email ne null}">
 		${member.name}
-		<a style="color:white;" href="${pageContext.request.contextPath}/auth/logout">로그아웃</a>
+		<a style="color:white;" href="${pageContext.request.contextPath}/auth/logout.do">로그아웃</a>
 	</c:when>
 	<c:otherwise>
-		<a style="color:white;" href="${pageContext.request.contextPath}/auth/login">로그인</a>
+		<a style="color:white;" href="${pageContext.request.contextPath}/auth/login.do">로그인</a>
 	</c:otherwise>
 </c:choose>
 </span>
