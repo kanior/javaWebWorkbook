@@ -1,14 +1,17 @@
 package spms.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import spms.controls.*;
 import spms.vo.Member;
 
 @SuppressWarnings("serial")
@@ -21,49 +24,59 @@ public class DispatcherServlet extends HttpServlet {
 		String servletPath = request.getServletPath();
 		
 		try {
-			String pageControllerPath = null;
+			ServletContext sc = this.getServletContext();
 			
-			if ("/member/list.do".equals(servletPath)) {
-				pageControllerPath = "/member/list";
-			}
-			else if ("/member/add.do".equals(servletPath)) {
-				pageControllerPath = "/member/add";
+			HashMap<String, Object> model = new HashMap<>();
+			model.put("session", request.getSession());
+			
+			Controller pageController = (Controller)sc.getAttribute(servletPath);
+			
+			if ("/member/add.do".equals(servletPath)) {
 				if (request.getParameter("email") != null) {
-					request.setAttribute("member", new Member()
+					model.put("member", new Member()
 							.setEmail(request.getParameter("email"))
 							.setPassword(request.getParameter("password"))
 							.setName(request.getParameter("name")));
 				}
 			}
 			else if ("/member/update.do".equals(servletPath)) {
-				pageControllerPath = "/member/update";
 				if (request.getParameter("email") != null) {
-					request.setAttribute("member", new Member()
+					model.put("member", new Member()
 							.setNo(Integer.parseInt(request.getParameter("no")))
 							.setEmail(request.getParameter("email"))
 							.setName(request.getParameter("name")));
 				}
+				else {
+					model.put("no", Integer.parseInt(request.getParameter("no")));
+				}
 			}
 			else if ("/member/delete.do".equals(servletPath)) {
-				pageControllerPath = "/member/delete";
+				if (request.getParameter("no") != null) {
+					model.put("no", Integer.parseInt(request.getParameter("no")));
+				}
 			}
 			else if ("/auth/login.do".equals(servletPath)) {
-				pageControllerPath = "/auth/login";
+				if (request.getParameter("email") != null) {
+					model.put("email", request.getParameter("email"));
+					model.put("password", request.getParameter("password"));
+				}
 			}
 			else if ("/auth/logout.do".equals(servletPath)) {
-				pageControllerPath = "/auth/logout";
+				model.put("contextPath", request.getContextPath());
 			}
 			
-			RequestDispatcher rd = request.getRequestDispatcher(pageControllerPath);
-			rd.include(request, response);
+			String viewUrl = pageController.execute(model);
 			
-			String viewUrl = (String)request.getAttribute("viewUrl");
+			for (String key : model.keySet()) {
+				request.setAttribute(key, model.get(key));
+			}
+			
 			if (viewUrl.startsWith("redirect:")) {
 				response.sendRedirect(viewUrl.substring(9));
 				return;
 			}
 			else {
-				rd = request.getRequestDispatcher(viewUrl);
+				RequestDispatcher rd = request.getRequestDispatcher(viewUrl);
 				rd.include(request, response);
 			}
 			
