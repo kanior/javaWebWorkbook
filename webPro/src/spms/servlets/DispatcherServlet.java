@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import spms.bind.DataBinding;
 import spms.bind.ServletRequestDataBinder;
+import spms.context.ApplicationContext;
 import spms.controls.*;
+import spms.listeners.ContextLoaderListener;
 
 @SuppressWarnings("serial")
 @WebServlet("*.do")
@@ -25,13 +26,17 @@ public class DispatcherServlet extends HttpServlet {
 		String servletPath = request.getServletPath();
 		
 		try {
-			ServletContext sc = this.getServletContext();
+			ApplicationContext ctx = ContextLoaderListener.getApplicationContext();
 			
 			HashMap<String, Object> model = new HashMap<>();
 			model.put("session", request.getSession());
 			model.put("contextPath", request.getContextPath());
 			
-			Controller pageController = (Controller)sc.getAttribute(servletPath);
+			Controller pageController = (Controller)ctx.getBean(servletPath);
+			
+			if (pageController == null) {
+				throw new Exception("요청한 서비스를 찾을 수 없습니다.");
+			}
 			
 			if (pageController instanceof DataBinding) {
 				prepareRequestData(request, model, (DataBinding)pageController);
