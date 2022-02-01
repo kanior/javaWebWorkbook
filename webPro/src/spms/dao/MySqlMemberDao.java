@@ -68,9 +68,8 @@ public class MySqlMemberDao implements MemberDao{
 			stmt.setString(1, member.getEmail());
 			stmt.setString(2, member.getPassword());
 			stmt.setString(3, member.getName());
-			int rowNum = stmt.executeUpdate();
 			
-			return rowNum;
+			return stmt.executeUpdate();
 			
 		} catch (Exception e) {
 			throw e;
@@ -87,11 +86,8 @@ public class MySqlMemberDao implements MemberDao{
 		try {
 			conn = ds.getConnection();
 			stmt = conn.createStatement();
-			int rowNum = stmt.executeUpdate(
-							"delete from MEMBERS "
-							+ "where MNO=" + no);
 			
-			return rowNum;
+			return stmt.executeUpdate("delete from MEMBERS where MNO=" + no);
 			
 		} catch (Exception e) {
 			throw e;
@@ -146,9 +142,8 @@ public class MySqlMemberDao implements MemberDao{
 			stmt.setString(1, member.getEmail());
 			stmt.setString(2, member.getName());
 			stmt.setInt(3, member.getNo());
-			int rowNum = stmt.executeUpdate();
 			
-			return rowNum;
+			return stmt.executeUpdate();
 			
 		} catch (Exception e) {
 			throw e;

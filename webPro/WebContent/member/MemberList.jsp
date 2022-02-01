@@ -1,7 +1,4 @@
-<%@ page 
-	language="java" 
-	contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -13,7 +10,6 @@
 <jsp:include page="/Header.jsp" />
 <h1>회원 목록</h1>
 <p><a href="add.do">신규 회원</a></p>
-<jsp:useBean id="members" scope="request" class="java.util.ArrayList" type="java.util.ArrayList<spms.vo.Member>" />
 <c:forEach var="member" items="${members}">
 ${member.no},
 <a href="update.do?no=${member.no}">${member.name}</a>,
